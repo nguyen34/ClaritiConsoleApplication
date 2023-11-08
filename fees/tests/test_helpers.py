@@ -1,5 +1,5 @@
 import unittest
-from fees.helpers import add
+from fees.helpers.helpers import add
 
 
 class TestHelpers(unittest.TestCase):
