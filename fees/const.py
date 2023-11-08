@@ -3,7 +3,8 @@ DEPARTMENTS = [
     'Sales',
     'Development',
     'Operations',
-    'Support'
+    'Support',
+    'All'
 ]
 
 CATEGORIES = [
@@ -16,19 +17,22 @@ CATEGORIES = [
     'Performance Management',
     'Tier 1',
     'Tier 2',
-    'Tier 3'
+    'Tier 3',
+    'All'
 ]
 
 SUB_CATEGORIES = [
     'Cat 1',
     'Cat 2',
-    'Cat 3'
+    'Cat 3',
+    'All'
 ]
 
 TYPES = [
     'Type 1',
     'Type 2',
-    'Type 3'
+    'Type 3',
+    'All'
 ]
 
 DEPT_SURCHARGES = {
