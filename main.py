@@ -22,30 +22,30 @@ def main():
         if not dept:
             break
 
-        if dept.lower() != 'all':
+        if dept != 'all':
             temp = temp.find_child(dept)
             cat = request_category(temp)
             if not cat:
                 break
 
-        if cat.lower() != 'all':
+        if cat != 'all':
             temp = temp.find_child(cat)
             sub_cat = request_sub_category(temp)
             if not sub_cat:
                 break
 
-        if sub_cat.lower() != 'all':
+        if sub_cat != 'all':
             temp = temp.find_child(sub_cat)
             type = request_type(temp)
             if not type:
                 break
 
-            if type.lower() != 'all':
+            if type != 'all':
                 temp = temp.find_child(type)
 
         generate_confirmation(dept, cat, sub_cat, type)
-        confirmation = input()
-        if confirmation.lower() == 'y' or confirmation.lower() == 'yes':
+        confirmation = input().strip().lower()
+        if confirmation == 'y' or confirmation == 'yes':
             total_fees = sum_fees(temp)
             # Formats the total fees into a currency format for better readability
             print("Total Fees: " + str('${:,.2f}'.format(total_fees)))
@@ -53,8 +53,8 @@ def main():
             print("Please try again.")
             continue
         print("Would you like to make another query? (Y/N)")
-        confirmation = input()
-        if confirmation.lower() == 'y' or confirmation.lower() == 'yes':
+        confirmation = input().strip().lower()
+        if confirmation == 'y' or confirmation == 'yes':
             continue
         else:
             break

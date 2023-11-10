@@ -43,6 +43,11 @@ class TreeNode:
             return self
         else:
             for child in self.children:
-                if child.data == target:
-                    return child
+                # if child data is a string, make it case insensitive matching
+                if type(child.data) == str:
+                    if child.data.lower() == target.lower():
+                        return child
+                else:
+                    if child.data == target:
+                        return child
         return None

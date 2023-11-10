@@ -37,11 +37,11 @@ def request_department(root):
             print(str(i + 1) + ". " + dept)
         print(str(len(all_departments) + 1) + ". All")
         print(str(len(all_departments) + 2) + ". Exit")
-        dept = input("Enter Department: ")
-        if dept == str(len(all_departments) + 2) or dept.lower() == "exit":
+        dept = input("Enter Department: ").strip().lower()
+        if dept == str(len(all_departments) + 2) or dept == "exit":
             dept = ''
             break
-        if dept == str(len(all_departments) + 1) or dept.lower() == "all":
+        if dept == str(len(all_departments) + 1) or dept == "all":
             dept = 'all'
             break
         if dept.isdigit():
@@ -50,7 +50,7 @@ def request_department(root):
             except IndexError:
                 print("Please enter a valid Department")
                 continue
-        if dept not in all_departments:
+        if dept not in (department.lower() for department in all_departments):
             print("Please enter a valid Department")
             continue
         break
@@ -72,11 +72,11 @@ def request_category(department):
             print(str(i + 1) + ". " + cat)
         print(str(len(all_categories) + 1) + ". All")
         print(str(len(all_categories) + 2) + ". Exit")
-        cat = input("Enter Category: ")
-        if cat == str(len(all_categories) + 2) or cat.lower() == "exit":
+        cat = input("Enter Category: ").strip().lower()
+        if cat == str(len(all_categories) + 2) or cat == "exit":
             cat = ''
             break
-        if cat == str(len(all_categories) + 1) or cat.lower() == "all":
+        if cat == str(len(all_categories) + 1) or cat == "all":
             cat = 'all'
             break
         if cat.isdigit():
@@ -85,7 +85,7 @@ def request_category(department):
             except IndexError:
                 print("Please enter a valid Category")
                 continue
-        if cat not in all_categories:
+        if cat not in (category.lower() for category in all_categories):
             print("Please enter a valid Category")
             continue
         break
@@ -107,11 +107,11 @@ def request_sub_category(category):
             print(str(i + 1) + ". " + sub_cat)
         print(str(len(all_sub_categories) + 1) + ". All")
         print(str(len(all_sub_categories) + 2) + ". Exit")
-        sub_cat = input("Enter Sub Category: ")
-        if sub_cat == str(len(all_sub_categories) + 2) or sub_cat.lower() == "exit":
+        sub_cat = input("Enter Sub Category: ").strip().lower()
+        if sub_cat == str(len(all_sub_categories) + 2) or sub_cat == "exit":
             sub_cat = ''
             break
-        if sub_cat == str(len(all_sub_categories) + 1) or sub_cat.lower() == "all":
+        if sub_cat == str(len(all_sub_categories) + 1) or sub_cat == "all":
             sub_cat = 'all'
             break
         if sub_cat.isdigit():
@@ -120,7 +120,7 @@ def request_sub_category(category):
             except IndexError:
                 print("Please enter a valid Sub Category")
                 continue
-        if sub_cat not in all_sub_categories:
+        if sub_cat not in (sub_category.lower() for sub_category in all_sub_categories):
             print("Please enter a valid Sub Category")
             continue
         break
@@ -142,11 +142,11 @@ def request_type(sub_category):
             print(str(i + 1) + ". " + type)
         print(str(len(all_types) + 1) + ". All")
         print(str(len(all_types) + 2) + ". Exit")
-        type = input("Enter Type: ")
-        if type == str(len(all_types) + 2) or type.lower() == "exit":
+        type = input("Enter Type: ").strip().lower()
+        if type == str(len(all_types) + 2) or type == "exit":
             type = ''
             break
-        if type == str(len(all_types) + 1) or type.lower() == "all":
+        if type == str(len(all_types) + 1) or type == "all":
             type = 'all'
             break
         if type.isdigit():
@@ -155,7 +155,7 @@ def request_type(sub_category):
             except IndexError:
                 print("Please enter a valid Type")
                 continue
-        if type not in all_types:
+        if type not in (type.lower() for type in all_types):
             print("Please enter a valid Type")
             continue
         break
