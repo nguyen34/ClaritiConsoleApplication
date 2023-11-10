@@ -46,7 +46,7 @@ def request_department(root):
             break
         if dept.isdigit():
             try:
-                dept = all_departments[int(dept) - 1]
+                dept = all_departments[int(dept) - 1].lower()
             except IndexError:
                 print("Please enter a valid Department")
                 continue
@@ -81,7 +81,7 @@ def request_category(department):
             break
         if cat.isdigit():
             try:
-                cat = all_categories[int(cat) - 1]
+                cat = all_categories[int(cat) - 1].lower()
             except IndexError:
                 print("Please enter a valid Category")
                 continue
@@ -116,7 +116,7 @@ def request_sub_category(category):
             break
         if sub_cat.isdigit():
             try:
-                sub_cat = all_sub_categories[int(sub_cat) - 1]
+                sub_cat = all_sub_categories[int(sub_cat) - 1].lower()
             except IndexError:
                 print("Please enter a valid Sub Category")
                 continue
@@ -151,7 +151,7 @@ def request_type(sub_category):
             break
         if type.isdigit():
             try:
-                type = all_types[int(type) - 1]
+                type = all_types[int(type) - 1].lower()
             except IndexError:
                 print("Please enter a valid Type")
                 continue

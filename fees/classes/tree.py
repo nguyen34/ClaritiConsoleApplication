@@ -28,13 +28,6 @@ class TreeNode:
             for child in self.children:
                 child.print_tree()
 
-    def traverse(self):
-        nodes = [self]
-        while len(nodes) > 0:
-            current_node = nodes.pop()
-            print(current_node.data)
-            nodes += current_node.children[::-1]
-
     def children_data(self):
         return [child.data for child in self.children]
 

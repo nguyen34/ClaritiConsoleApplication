@@ -16,6 +16,17 @@ def sum_fees(tree):
         return sum([sum_fees(child) for child in tree.children])
 
 
+def calculate_fees(price, quantity, surcharge):
+    '''
+        Calculates the fees given a price, quantity, and surcharge
+        :param price: float representing the price of the item
+        :param quantity: int representing the quantity of the item
+        :param surcharge: float representing the surcharge of the item
+        :return: float representing the total fees of the item
+    '''
+    return price * quantity * (1 + surcharge)
+
+
 def process_fees_csv_into_a_tree(data):
     """
     Processes a Pandas DataFrame into a tree structure
@@ -34,7 +45,8 @@ def process_fees_csv_into_a_tree(data):
         # so the amount should not change regardless of the query made
         # TODO: Improvement: Create a separate parameter to apply surcharge?
         surcharge = DEPT_SURCHARGES[dept] if DEPT_SURCHARGES[dept] else 0
-        total_fee = row["Quantity__c"] * row["Unit_Price__c"] * (1 + surcharge)
+        total_fee = calculate_fees(
+            row["Unit_Price__c"], row["Quantity__c"], surcharge)
         fee_node = TreeNode(total_fee)
 
         if dept not in root.children_data():

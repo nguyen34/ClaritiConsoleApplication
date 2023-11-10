@@ -14,7 +14,7 @@
 
 # To run unit tests, run the following command:
 
-    python -m unittest
+    python -m unittest -b
 
 During running of the application, you will be asked to enter a series of inputs, to determine the Department, Category, Sub Category and Type you wish to calculate and query fees upon.
 
