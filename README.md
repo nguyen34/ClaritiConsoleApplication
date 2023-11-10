@@ -1,4 +1,6 @@
-# Ensure you have Python set up on your machine to run this application
+# Requirements
+
+Ensure you have a version of Python and pip installed to run this application. Preferably Python 3.
 
 # (Recommended) Install and set up a Virtual Environment to run the application:
 
