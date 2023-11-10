@@ -24,6 +24,16 @@ class TestFees(unittest.TestCase):
         self.assertEqual(sum_fees(self.sub_category), 3)
         self.assertEqual(sum_fees(self.type), 3)
 
+        new_type = TreeNode("Cat2")
+        self.sub_category.add_child(new_type)
+        new_type.add_child(TreeNode(3))
+        self.assertEqual(sum_fees(self.root), 6)
+        self.assertEqual(sum_fees(self.department), 6)
+        self.assertEqual(sum_fees(self.category), 6)
+        self.assertEqual(sum_fees(self.sub_category), 6)
+        self.assertEqual(sum_fees(self.type), 3)
+        self.assertEqual(sum_fees(new_type), 3)
+
     def test_calculate_fees(self):
         self.assertEqual(calculate_fees(1, 1, 0), 1)
         self.assertEqual(calculate_fees(1, 1, 0.1), 1.1)
@@ -32,6 +42,10 @@ class TestFees(unittest.TestCase):
         self.assertEqual(calculate_fees(2, 2, 0), 4)
         self.assertEqual(calculate_fees(2, 2, -0.1), 3.6)
         self.assertEqual(calculate_fees(2, 2, -0.2), 3.2)
+        self.assertEqual(calculate_fees(2, 2), 4)
+        self.assertEqual(calculate_fees(2, 0), 0)
+        self.assertEqual(calculate_fees(0, 2), 0)
+        self.assertEqual(calculate_fees(0, 0), 0)
 
     def test_process_fees_csv_into_a_tree(self):
         data = load_csv(get_csv_path("raw_fees.csv"))

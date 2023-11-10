@@ -23,6 +23,7 @@ class TestClasses(unittest.TestCase):
 
 class TestTreeClasses(unittest.TestCase):
     def setUp(self) -> None:
+        # Set up a simple tree to be used for multiple tests
         self.root = TreeNode("Fees")
         self.root.add_child(TreeNode("Marketing"))
         self.department = self.root.children[0]
@@ -36,10 +37,14 @@ class TestTreeClasses(unittest.TestCase):
     def test_tree_node(self):
         self.assertEqual(self.root.data, "Fees")
         self.assertEqual(self.root.children[0].data, "Marketing")
+        self.assertEqual(self.department.data, "Marketing")
         self.assertEqual(self.department.children[0].data, "ABM")
+        self.assertEqual(self.category.data, "ABM")
         self.assertEqual(self.category.children[0].data, "Tier 1")
+        self.assertEqual(self.sub_category.data, "Tier 1")
         self.assertEqual(self.sub_category.children[0].data, "Cat1")
         self.assertEqual(self.type.data, "Cat1")
+        self.assertEqual(self.type.children, [])
 
     def test_add_and_remove_child(self):
         self.root.add_child(TreeNode("Support"))
@@ -61,8 +66,11 @@ class TestTreeClasses(unittest.TestCase):
         self.assertEqual(self.category.children_data(), ["Tier 1"])
         self.assertEqual(self.sub_category.children_data(), ["Cat1"])
         self.assertEqual(self.type.children_data(), [])
-        self.root.add_child(TreeNode("Support"))
+        new_department_node = TreeNode("Support")
+        self.root.add_child(new_department_node)
         self.assertEqual(self.root.children_data(), ["Marketing", "Support"])
+        self.root.remove_child(new_department_node)
+        self.assertEqual(self.root.children_data(), ["Marketing"])
 
     def test_find_child(self):
         self.assertEqual(self.root.find_child("Marketing"), self.department)

@@ -31,12 +31,18 @@ class TestHelpers(unittest.TestCase):
         with unittest.mock.patch('builtins.input', return_value="marketing"):
             self.assertEqual(request_department(self.root), "marketing")
 
+        with unittest.mock.patch('builtins.input', return_value="exit"):
+            self.assertEqual(request_department(self.root), "")
+
     def test_request_category(self):
         with unittest.mock.patch('builtins.input', return_value="2"):
             self.assertEqual(request_category(self.department), "all")
 
         with unittest.mock.patch('builtins.input', return_value="abm"):
             self.assertEqual(request_category(self.department), "abm")
+
+        with unittest.mock.patch('builtins.input', return_value="exit"):
+            self.assertEqual(request_category(self.department), "")
 
     def test_request_sub_category(self):
         with unittest.mock.patch('builtins.input', return_value="2"):
@@ -45,12 +51,18 @@ class TestHelpers(unittest.TestCase):
         with unittest.mock.patch('builtins.input', return_value="tier 1"):
             self.assertEqual(request_sub_category(self.category), "tier 1")
 
+        with unittest.mock.patch('builtins.input', return_value="exit"):
+            self.assertEqual(request_sub_category(self.category), "")
+
     def test_request_type(self):
         with unittest.mock.patch('builtins.input', return_value="2"):
             self.assertEqual(request_type(self.sub_category), "all")
 
         with unittest.mock.patch('builtins.input', return_value="cat1"):
             self.assertEqual(request_type(self.sub_category), "cat1")
+
+        with unittest.mock.patch('builtins.input', return_value="exit"):
+            self.assertEqual(request_type(self.sub_category), "")
 
 
 if __name__ == '__main__':

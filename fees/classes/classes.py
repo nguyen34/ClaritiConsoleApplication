@@ -1,4 +1,4 @@
-# Additional Tentative Classes for now. Will Deprecate later if not needed.
+# Additional Tentative Classes for now, does not get used throughout the app. Useful for future improvements if I want to expand on the query to handle surcharge, quantity, and price separately.
 
 class Department:
     # This class would be important to keep if we wanted to apply a surcharge more dynamically on each query

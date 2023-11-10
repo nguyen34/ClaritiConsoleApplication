@@ -10,18 +10,19 @@ def sum_fees(tree):
         :param tree: TreeNode representing the root of the fees tree
         :return: float representing the total fees at a certain node in the tree
     '''
+    # We only want the leaves of the tree which in this context, holds the fees, and sum them up.
     if not tree.children:
         return tree.data
     else:
         return sum([sum_fees(child) for child in tree.children])
 
 
-def calculate_fees(price, quantity, surcharge):
+def calculate_fees(price, quantity, surcharge=0):
     '''
         Calculates the fees given a price, quantity, and surcharge
         :param price: float representing the price of the item
         :param quantity: int representing the quantity of the item
-        :param surcharge: float representing the surcharge of the item
+        :param surcharge: float representing the surcharge of the item. If not given, defaults to 0
         :return: float representing the total fees of the item
     '''
     return price * quantity * (1 + surcharge)
@@ -43,7 +44,7 @@ def process_fees_csv_into_a_tree(data):
         # Calculate the fee here. Pre-calculate the surcharge here and store it in their tree.
         # Under the impression that surcharges are automatically applied based on the department
         # so the amount should not change regardless of the query made
-        # TODO: Improvement: Create a separate parameter to apply surcharge?
+        # TODO: Future Improvement: Create a separate parameter to apply surcharge?
         surcharge = DEPT_SURCHARGES[dept] if DEPT_SURCHARGES[dept] else 0
         total_fee = calculate_fees(
             row["Unit_Price__c"], row["Quantity__c"], surcharge)
