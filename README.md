@@ -1,7 +1,9 @@
 # Ensure you have Python set up on your machine to run this application
 
-# To Run the Application, first activate the virtual environment:
+# (Recommended) Install and set up a Virtual Environment to run the application:
 
+    pip install virtualenv
+    virtualenv .env
     source .env/bin/activate
 
 # You may also have to install some requirements to ensure this works:
