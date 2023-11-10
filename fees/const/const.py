@@ -1,3 +1,4 @@
+# Define App Wide constants here
 DEPT_SURCHARGES = {
     'Marketing': 0.10,
     'Sales': 0.15,

@@ -1,5 +1,5 @@
 import unittest
-from fees.fees import *
+from fees.helpers.fees import *
 
 
 class TestFees(unittest.TestCase):

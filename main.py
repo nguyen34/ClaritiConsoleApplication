@@ -1,6 +1,6 @@
-from fees.fees import *
+from fees.helpers.fees import *
 from fees.helpers.helpers import *
-from fees.const import *
+from fees.const.const import *
 
 
 def main():

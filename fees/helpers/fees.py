@@ -1,4 +1,6 @@
-from fees.const import *
+# Helper file for fee processing
+
+from fees.const.const import *
 from fees.helpers.helpers import *
 
 
