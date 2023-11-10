@@ -1,58 +1,54 @@
 from fees.fees import *
 from fees.helpers.helpers import *
 from fees.const import *
-import os
-
-
-def get_csv_path():
-    return os.path.join(os.path.dirname(__file__), "fees", "csv", "raw_fees.csv")
 
 
 def main():
     # Pre-process the CSV file into a tree to be ready for the console application
-    csv_path = get_csv_path()
+    csv_path = get_csv_path("raw_fees.csv")
     data = load_csv(csv_path)
-    tree = process_fees_csv_into_a_tree(data)
+    root = process_fees_csv_into_a_tree(data)
     # Main console body
+    # Tracker variables to keep track of the current query
+    dept = 'all'
+    cat = 'all'
+    sub_cat = 'all'
+    type = 'all'
     while True:
+        temp = root
         print("Welcome to the Fees Calculator! Here, we shall calculate the total fees for a given query.")
 
-        dept = request_department()
+        dept = request_department(temp)
         if not dept:
             break
-        if dept.lower() == 'all':
-            dept = DEPARTMENTS[:-1]
 
-        # TODO: Use the tree to get the caregories/children of the department
-        cat = request_category()
-        if not cat:
-            break
-        if cat.lower() == 'all':
-            cat = CATEGORIES[:-1]
+        if dept.lower() != 'all':
+            temp = temp.find_child(dept)
+            cat = request_category(temp)
+            if not cat:
+                break
 
-        sub_cat = request_sub_category()
-        if not sub_cat:
-            break
-        if sub_cat.lower() == 'all':
-            sub_cat = SUB_CATEGORIES[:-1]
+        if cat.lower() != 'all':
+            temp = temp.find_child(cat)
+            sub_cat = request_sub_category(temp)
+            if not sub_cat:
+                break
 
-        type = request_type()
-        if not type:
-            break
-        if type.lower() == 'all':
-            type = TYPES[:-1]
+        if sub_cat.lower() != 'all':
+            temp = temp.find_child(sub_cat)
+            type = request_type(temp)
+            if not type:
+                break
 
-        # TODO: Re-factor into a helper function
-        print("You wish to query fees for the following:")
-        print("Department(s): " + str(dept))
-        print("Category(s): " + str(cat))
-        print("Sub-Category(s): " + str(sub_cat))
-        print("Type(s): " + str(type))
-        print("Is this correct? (Y/N)")
+            if type.lower() != 'all':
+                temp = temp.find_child(type)
+
+        generate_confirmation(dept, cat, sub_cat, type)
         confirmation = input()
         if confirmation.lower() == 'y' or confirmation.lower() == 'yes':
-            total_fees = query_fees(tree)
-            print("Total Fees: " + str(total_fees))
+            total_fees = sum_fees(temp)
+            # Formats the total fees into a currency format for better readability
+            print("Total Fees: " + str('${:,.2f}'.format(total_fees)))
         else:
             print("Please try again.")
             continue

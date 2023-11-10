@@ -34,3 +34,15 @@ class TreeNode:
             current_node = nodes.pop()
             print(current_node.data)
             nodes += current_node.children[::-1]
+
+    def children_data(self):
+        return [child.data for child in self.children]
+
+    def find_child(self, target):
+        if self.data == target:
+            return self
+        else:
+            for child in self.children:
+                if child.data == target:
+                    return child
+        return None

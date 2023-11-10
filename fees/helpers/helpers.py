@@ -1,12 +1,15 @@
 import pandas as pd
 from fees.classes.tree import *
 from fees.const import *
+import os
 
-# Dummy function for unit tests
 
-
-def add(x, y):
-    return x + y
+def get_csv_path(file):
+    """
+    Gets the path to the CSV file
+    :return: String representing the path to the CSV file
+    """
+    return os.path.join(os.path.dirname(__file__), "..", "csv", file)
 
 
 def load_csv(path):
@@ -19,68 +22,34 @@ def load_csv(path):
     return data
 
 
-def process_fees_csv_into_a_tree(data):
+def request_department(root):
     """
-    Processes a Pandas DataFrame into a tree structure
-    :param data: Pandas DataFrame
-    :return: TreeNode
+    Asks user to select a department from the tree
+    :param root: TreeNode representing the root of the tree
+    :return: String representing the department
     """
-    root = TreeNode("Fees")
-    for _, row in data.iterrows():
-        dept = row["Department__c"]
-        cat = row["Category__c"]
-        sub_cat = row["Sub_Category__c"]
-        type = row["Type__c"]
-
-        # Calculate the fee here
-        surcharge = DEPT_SURCHARGES[dept] if DEPT_SURCHARGES[dept] else 0
-        total_fee = row["Quantity__c"] * row["Unit_Price__c"] * (1 + surcharge)
-        fee_node = TreeNode(total_fee)
-
-        if dept not in root.children:
-            dept_node = TreeNode(dept)
-            root.add_child(dept_node)
-        else:
-            dept_node = root.children[root.children.index(dept)]
-        if cat not in dept_node.children:
-            cat_node = TreeNode(cat)
-            dept_node.add_child(cat_node)
-        else:
-            cat_node = dept_node.children[dept_node.children.index(cat)]
-        if sub_cat not in cat_node.children:
-            sub_cat_node = TreeNode(sub_cat)
-            cat_node.add_child(sub_cat_node)
-        else:
-            sub_cat_node = cat_node.children[cat_node.children.index(sub_cat)]
-        if type not in sub_cat_node.children:
-            type_node = TreeNode(type)
-            sub_cat_node.add_child(type_node)
-        else:
-            type_node = sub_cat_node.children[sub_cat_node.children.index(
-                type)]
-        type_node.add_child(fee_node)
-    return root
-
-
-def request_department():
+    all_departments = root.children_data()
     dept = ''
     while True:
-        print('''Please select one of the Departments below:
-                    1. Marketing
-                    2. Sales
-                    3. Development
-                    4. Operations
-                    5. Support
-                    6. All
-                    7. Exit
-                ''')
+        print("Please select one of the Departments below:")
+        for i, dept in enumerate(all_departments):
+            print(str(i + 1) + ". " + dept)
+        print(str(len(all_departments) + 1) + ". All")
+        print(str(len(all_departments) + 2) + ". Exit")
         dept = input("Enter Department: ")
-        if dept == "7" or dept.lower() == "exit":
+        if dept == str(len(all_departments) + 2) or dept.lower() == "exit":
             dept = ''
             break
+        if dept == str(len(all_departments) + 1) or dept.lower() == "all":
+            dept = 'all'
+            break
         if dept.isdigit():
-            dept = DEPARTMENTS[int(dept) - 1]
-        if dept not in DEPARTMENTS:
+            try:
+                dept = all_departments[int(dept) - 1]
+            except IndexError:
+                print("Please enter a valid Department")
+                continue
+        if dept not in all_departments:
             print("Please enter a valid Department")
             continue
         break
@@ -88,30 +57,34 @@ def request_department():
     return dept
 
 
-def request_category():
+def request_category(department):
+    """
+    Asks user to select a category from the tree
+    :param department: TreeNode representing the department
+    :return: String representing the category
+    """
     cat = ''
     while True:
-        print('''Next, plese select a Category:
-                    1. ABM
-                    2. Pre Sales
-                    3. Sales Engineering
-                    4. Coding
-                    5. Quality Assurance
-                    6. Human Resources
-                    7. Performance Management
-                    8. Tier 1
-                    9. Tier 2
-                    10. Tier 3
-                    11. All
-                    12. Exit
-                ''')
+        print("Next, plese select among the categories:")
+        all_categories = department.children_data()
+        for i, cat in enumerate(all_categories):
+            print(str(i + 1) + ". " + cat)
+        print(str(len(all_categories) + 1) + ". All")
+        print(str(len(all_categories) + 2) + ". Exit")
         cat = input("Enter Category: ")
-        if cat == "12" or cat.lower() == "exit":
+        if cat == str(len(all_categories) + 2) or cat.lower() == "exit":
             cat = ''
             break
+        if cat == str(len(all_categories) + 1) or cat.lower() == "all":
+            cat = 'all'
+            break
         if cat.isdigit():
-            cat = CATEGORIES[int(cat) - 1]
-        if cat not in CATEGORIES:
+            try:
+                cat = all_categories[int(cat) - 1]
+            except IndexError:
+                print("Please enter a valid Category")
+                continue
+        if cat not in all_categories:
             print("Please enter a valid Category")
             continue
         break
@@ -119,23 +92,34 @@ def request_category():
     return cat
 
 
-def request_sub_category():
+def request_sub_category(category):
+    """
+    Asks user to select a sub category from the tree
+    :param category: TreeNode representing the category
+    :return: String representing the sub category
+    """
     sub_cat = ''
     while True:
-        print('''Next, select among one of these Sub Categories:
-                    1. Cat 1
-                    2. Cat 2
-                    3. Cat 3
-                    4. All
-                    5. Exit
-                ''')
+        print("Next, select among one of these Sub Categories:")
+        all_sub_categories = category.children_data()
+        for i, sub_cat in enumerate(all_sub_categories):
+            print(str(i + 1) + ". " + sub_cat)
+        print(str(len(all_sub_categories) + 1) + ". All")
+        print(str(len(all_sub_categories) + 2) + ". Exit")
         sub_cat = input("Enter Sub Category: ")
-        if sub_cat == "5" or sub_cat.lower() == "exit":
+        if sub_cat == str(len(all_sub_categories) + 2) or sub_cat.lower() == "exit":
             sub_cat = ''
             break
+        if sub_cat == str(len(all_sub_categories) + 1) or sub_cat.lower() == "all":
+            sub_cat = 'all'
+            break
         if sub_cat.isdigit():
-            sub_cat = SUB_CATEGORIES[int(sub_cat) - 1]
-        if sub_cat not in SUB_CATEGORIES:
+            try:
+                sub_cat = all_sub_categories[int(sub_cat) - 1]
+            except IndexError:
+                print("Please enter a valid Sub Category")
+                continue
+        if sub_cat not in all_sub_categories:
             print("Please enter a valid Sub Category")
             continue
         break
@@ -143,25 +127,54 @@ def request_sub_category():
     return sub_cat
 
 
-def request_type():
+def request_type(sub_category):
+    """
+    Asks user to select a type from the tree
+    :param sub_category: TreeNode representing the sub category
+    :return: String representing the type
+    """
     type = ''
     while True:
-        print('''Next, select among one of these Types:
-                    1. Type 1
-                    2. Type 2
-                    3. Type 3
-                    4. All
-                    5. Exit
-                ''')
+        print("Finally, select among one of these Types:")
+        all_types = sub_category.children_data()
+        for i, type in enumerate(all_types):
+            print(str(i + 1) + ". " + type)
+        print(str(len(all_types) + 1) + ". All")
+        print(str(len(all_types) + 2) + ". Exit")
         type = input("Enter Type: ")
-        if type == "5" or type.lower() == "exit":
+        if type == str(len(all_types) + 2) or type.lower() == "exit":
             type = ''
             break
+        if type == str(len(all_types) + 1) or type.lower() == "all":
+            type = 'all'
+            break
         if type.isdigit():
-            type = TYPES[int(type) - 1]
-        if type not in TYPES:
+            try:
+                type = all_types[int(type) - 1]
+            except IndexError:
+                print("Please enter a valid Type")
+                continue
+        if type not in all_types:
             print("Please enter a valid Type")
             continue
         break
 
     return type
+
+
+def generate_confirmation(dept, cat, sub_cat, type):
+    """
+    Generates a confirmation message for the user. Mostly a helper function to reduce code on main.py
+    :param dept: String representing the department
+    :param cat: String representing the category
+    :param sub_cat: String representing the sub category
+    :param type: String representing the type
+    :return: None
+    """
+
+    print("You wish to query fees for the following:")
+    print("Department(s): " + str(dept))
+    print("Category(s): " + str(cat))
+    print("Sub-Category(s): " + str(sub_cat))
+    print("Type(s): " + str(type))
+    print("Is this correct? (Y/N)")
