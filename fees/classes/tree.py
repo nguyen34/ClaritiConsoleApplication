@@ -1,3 +1,6 @@
+# TODO: Possible improvement. Add a child class that inherits from TreeNode for Hierarchy and Fees?
+# Documentation: https://www.w3schools.com/python/python_inheritance.asp
+
 class TreeNode:
     def __init__(self, data):
         self.data = data
